@@ -1,8 +1,9 @@
 ## .NET Core 3.1 Simple E-Commerce Product Pages and Admin Panel ##
 
 #### Login: ####
-Username : admin Password: admin
-Username: customer Password: customer
+**Username :** admin **Password:** admin
+  
+**Username:** customer **Password:** customer
 ### Installation ###
 
 * type `https://github.com/ProbisMis/Burak.Application.Inveon.git projectname` to clone the repository 
