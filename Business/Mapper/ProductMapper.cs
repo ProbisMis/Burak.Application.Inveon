@@ -10,6 +10,7 @@ namespace Burak.Application.Inveon.Business.Mapper
         public ProductMapper() {
             base.CreateMap<UpdateProductRequest, Product>().ReverseMap();
             base.CreateMap<UpdateProductResponse, Product>().ReverseMap();
+            base.CreateMap<UpdateProductResponse, UpdateProductRequest>().ReverseMap();
         }
         
     }

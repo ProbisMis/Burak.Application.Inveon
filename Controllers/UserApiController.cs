@@ -20,7 +20,7 @@ namespace Burak.Application.Inveon.Controllers
     [Authorize]
     [ApiController]
     [Route("api/user")]
-    public class UserApiController : ControllerBase
+    public class UserApiController : ControllerBase, IUserApiController
     {
         
         private readonly ILogger<UserApiController> _logger;
@@ -46,6 +46,14 @@ namespace Burak.Application.Inveon.Controllers
         [HttpPost("authenticate")]
         public async Task<UserResponse> Authenticate([FromBody] LoginRequest userRequest)
         {
+            /* VALIDATE */
+            var validator = _validatorResolver.Resolve<LoginRequestValidator>();
+            ValidationResult validationResult = validator.Validate(userRequest);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.ToString());
+            }
+
             var user = await _userService.Authenticate(userRequest.Username, userRequest.Password);
 
             return _mapper.Map<UserResponse>(user);

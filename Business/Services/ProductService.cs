@@ -31,7 +31,7 @@ namespace Burak.Application.Inveon.Business.Services
             return addedProduct.Entity;
         }
 
-        public async Task<IList<Product>> GetAll()
+        public async Task<List<Product>> GetAll()
         {
             var Products = _dataContext.Products;
 
@@ -55,10 +55,19 @@ namespace Burak.Application.Inveon.Business.Services
 
         public async Task<Product> UpdateProduct(Product Product)
         {
-            var updatedProduct = _dataContext.Products.Update(Product);
-            await _dataContext.SaveChangesAsync();
+            try
+            {
+                var updatedProduct = _dataContext.Products.Update(Product);
+                await _dataContext.SaveChangesAsync();
 
-            return updatedProduct.Entity;
+                return updatedProduct.Entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         public async Task DeleteProduct(Product Product)

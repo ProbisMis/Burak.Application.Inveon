@@ -17,15 +17,13 @@ namespace Burak.Application.Inveon.Business.Services
     {
         private readonly DataContext _dataContext;
         private readonly IValidatorResolver _validatorResolver;
-        private readonly IConfiguration _configuration;
         private readonly ILogger<UserService> _logger;
 
         public UserService(DataContext dataContext, IMapper mapper,
-             IValidatorResolver validatorResolver, IConfiguration configuration, ILogger<UserService> logger)
+             IValidatorResolver validatorResolver, ILogger<UserService> logger)
         {
             _dataContext = dataContext;
             _validatorResolver = validatorResolver;
-            _configuration = configuration;
             _logger = logger;
         }
 

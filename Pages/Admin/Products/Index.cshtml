@@ -1,0 +1,58 @@
+﻿@page "{CurrentPage:int?}"
+@model Burak.Application.Inveon.Pages.Admin.Products.AdminIndexModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+    <div class="row">
+        @if (Model.Products.Any())
+        {
+            @foreach (var product in Model.Products)
+            {
+                
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a asp-page="./Details" asp-route-uid="@product.SKU">
+                        <div class="product-grids product-item">
+                            <div class="product-img">
+                                <img class="image-product" src="~/@product.Image1" alt="" width="200px" height="100px" />
+                            </div>
+                            <h4>@product.ProductName</h4>
+                            <p><b>SKU:</b> @product.SKU</p>
+                            <p><b>Description:</b> @product.Description</p>
+                            <p><b>Quantity:</b> @product.Quantity</p>
+                            <p><b>Price:</b>  @product.Price</p>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            if (Model.TotalPages > 1)
+            {
+                <div class="col-12">
+                    @if (Model.ShowPrevious)
+                    {
+                        <a asp-page="./Index" asp-route-CurrentPage="@(Model.CurrentPage - 1)" class="btn btn-primary">Previous</a>
+                    }
+                    @if (Model.ShowNext)
+                    {
+                        <a asp-page="./Index" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="btn btn-primary">Next</a>
+                    }
+                </div>
+            }
+        }
+else
+        {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        You have not created or published any Product entries.
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        <a asp-page="/Index"> Log Out</a>
+    </div>

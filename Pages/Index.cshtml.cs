@@ -8,6 +8,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Burak.Application.Inveon.Models.Request;
+using Burak.Application.Inveon.Business.Services;
+using Burak.Application.Inveon.Utilities.Helper;
+using Burak.Application.Inveon.Models.CustomExceptions;
+using Burak.Application.Inveon.Controllers;
 
 namespace Burak.Application.Inveon.Pages
 {
@@ -16,12 +20,15 @@ namespace Burak.Application.Inveon.Pages
     /// </summary>  
     public class IndexModel : PageModel
     {
+        private readonly IUserApiController _userApiController;
+
         /// <summary>  
         /// Initializes a new instance of the <see cref="IndexModel"/> class.  
         /// </summary>  
         /// <param name="databaseManagerContext">Database manager context parameter</param>  
-        public IndexModel( )
+        public IndexModel(IUserApiController userApiController)
         {
+            _userApiController = userApiController;
         }
 
         ///// <summary>  
@@ -42,7 +49,8 @@ namespace Burak.Application.Inveon.Pages
                 if (this.User.Identity.IsAuthenticated)
                     return this.RedirectToPage("/Home/Index");
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.Write(ex);
             }
 
@@ -55,72 +63,19 @@ namespace Burak.Application.Inveon.Pages
         /// <returns>Returns - Appropriate page </returns>  
         public async Task<IActionResult> OnPostLogIn()
         {
-            try
+
+
+            var user = _userApiController.Authenticate(LoginModel);
+            if (ControlHelper.isEmpty(user))
             {
-
-                
-                //// Verification.  
-                //if (ModelState.IsValid)
-                //{
-                //    // Initialization.  
-
-                //    // Verification.  
-                //    if (loginInfo != null && loginInfo.Count() > 0)
-                //    {
-                //        // Initialization.  
-                //        var logindetails = loginInfo.First();
-
-                //        // Login In.  
-                //        await this.SignInUser(logindetails.Username, false);
-
-                //        // Info.  
-                //        return this.RedirectToPage("/Home/Index");
-                //    }
-                //    else
-                //    {
-                //        // Setting.  
-                //        ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-                // Info  
-                Console.Write(ex);
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                return this.Page();
             }
 
-            // Info.  
-            return this.Page();
-        }
+            if (user.Result.Role.Equals("admin"))
+                return this.RedirectToPage("/Admin/Products/Index");
 
-
-        /// <summary>  
-        ///
-        /// </summary>  
-        /// <param name="username">Username parameter.</param>  
-        /// <param name="isPersistent">Is persistent parameter.</param>  
-        /// <returns>Returns - await task</returns>  
-        private async Task SignInUser(string username, bool isPersistent)
-        {
-            // Initialization.  
-            var claims = new List<Claim>();
-
-            try
-            {
-                // Setting  
-                claims.Add(new Claim(ClaimTypes.Name, username));
-                var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var claimPrincipal = new ClaimsPrincipal(claimIdenties);
-                var authenticationManager = Request.HttpContext;
-
-                // Sign In.  
-                await authenticationManager.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimPrincipal, new AuthenticationProperties() { IsPersistent = isPersistent });
-            }
-            catch (Exception ex)
-            {
-                // Info  
-                throw ex;
-            }
+            return this.RedirectToPage("/Products/Index");
         }
     }
 }

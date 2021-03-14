@@ -17,7 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using AutoMapper;
-
+using Burak.Application.Inveon.Controllers;
 
 namespace Burak.Application.Inveon
 {
@@ -81,6 +81,8 @@ namespace Burak.Application.Inveon
             {
                 endpoints.MapRazorPages();
             });
+
+            app.UseStaticFiles();
         }
 
         private void AddSelectedDataStorage(IServiceCollection services)
@@ -104,6 +106,7 @@ namespace Burak.Application.Inveon
         {
             //TODO: Create and add which model mapped to which
             services.AddAutoMapper(typeof(UserMapper));
+            services.AddAutoMapper(typeof(ProductMapper));
         }
 
         private void AddValidations(IServiceCollection services)
@@ -111,12 +114,17 @@ namespace Burak.Application.Inveon
             //TODO: Add Request Validators
             services.AddSingleton<IValidatorResolver, ValidatorResolver>();
             services.AddSingleton<IValidator, UserValidator>();
+            services.AddSingleton<IValidator, UpdateProductRequestValidator>();
+            services.AddSingleton<IValidator, LoginRequestValidator>();
         }
 
         private void AddBusinessServices(IServiceCollection services)
         {
             //TODO: Add Services (external,internal)
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUserApiController, UserApiController>();
+            services.AddScoped<IProductApiController, ProductApiController>();
         }
     }
 }

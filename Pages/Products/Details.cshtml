@@ -1,0 +1,32 @@
+﻿@page "{uid}"
+@model DetailsModel
+
+@{
+    ViewData["Title"] = Model.ProductResponse.ProductName;
+}
+
+<div class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 single-top-left vcenter">
+                <ul class="slides">
+                    <li data-thumb="@Model.ProductResponse.Image1">
+                        <img class="slides-image" src="~/@Model.ProductResponse.Image1" alt=""  width="200px" height="200px" />
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-6 single-top-right vcenter">
+                <h3>@Model.ProductResponse.ProductName</h3>
+                <p>@Model.ProductResponse.SKU</p>
+                <p>@Model.ProductResponse.Description</p>
+                <p>@Model.ProductResponse.Quantity</p>
+                <p class="actual-price">$@Model.ProductResponse.Price</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -1,0 +1,50 @@
+﻿@page "{uid}"
+@model Burak.Application.Inveon.Pages.Admin.Products.AdminDetailsModel
+
+@{
+    ViewData["Title"] = Model.ProductRequest.ProductName;
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="product-img">
+                <img class="image-product" src="~/ProductRequest.Image1" alt="" width="200px" height="100px" />
+            </div>
+            <input type="hidden" asp-for="ProductRequest.SKU" />
+            <div class="form-group">
+                <label asp-for="ProductRequest.SKU" class="control-label"></label>
+                <div>@Html.DisplayFor(model => model.ProductRequest.SKU)</div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRequest.ProductName" class="control-label"></label>
+                <input asp-for="ProductRequest.ProductName" class="form-control" />
+                <span asp-validation-for="ProductRequest.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRequest.Description" class="control-label"></label>
+                <input asp-for="ProductRequest.Description" class="form-control" />
+                <span asp-validation-for="ProductRequest.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRequest.Price" class="control-label"></label>
+                <input asp-for="ProductRequest.Price" class="form-control" />
+                <span asp-validation-for="ProductRequest.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRequest.Quantity" class="control-label"></label>
+                <input asp-for="ProductRequest.Quantity" class="form-control"></input>
+                <span asp-validation-for="ProductRequest.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
