@@ -1,6 +1,11 @@
 ﻿@page "{uid}"
 @model DetailsModel
 
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
 @{
     ViewData["Title"] = Model.ProductResponse.ProductName;
 }
@@ -11,22 +16,18 @@
             <div class="col-md-6 single-top-left vcenter">
                 <ul class="slides">
                     <li data-thumb="@Model.ProductResponse.Image1">
-                        <img class="slides-image" src="~/@Model.ProductResponse.Image1" alt=""  width="200px" height="200px" />
+                        <img class="slides-image" src="~/@Model.ProductResponse.Image1" alt="" width="200px" height="200px" />
                     </li>
                 </ul>
             </div>
 
             <div class="col-md-6 single-top-right vcenter">
                 <h3>@Model.ProductResponse.ProductName</h3>
-                <p>@Model.ProductResponse.SKU</p>
-                <p>@Model.ProductResponse.Description</p>
-                <p>@Model.ProductResponse.Quantity</p>
-                <p class="actual-price">$@Model.ProductResponse.Price</p>
+                <p><b>SKU:</b> @Model.ProductResponse.SKU</p>
+                <p><b>Description:</b> @Model.ProductResponse.Description</p>
+                <p><b>Quantity:</b> @Model.ProductResponse.Quantity</p>
+                <p class="actual-price"><b>Price:</b> $@Model.ProductResponse.Price</p>
             </div>
         </div>
     </div>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
 </div>

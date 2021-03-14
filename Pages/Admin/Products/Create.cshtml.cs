@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Burak.Application.Inveon.Pages.Admin.Products
 {
-    public class AdminDetailsModel : PageModel
+    public class AdminCreateModel : PageModel
     {
         private readonly IProductApiController _productApiController;
         private readonly IMapper _mapper;
@@ -20,10 +20,7 @@ namespace Burak.Application.Inveon.Pages.Admin.Products
         [BindProperty]
         public UpdateProductResponse ProductResponse { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public string Uid { get; set; }
-
-        public AdminDetailsModel(IProductApiController productApiController, IMapper mapper)
+        public AdminCreateModel(IProductApiController productApiController, IMapper mapper)
         {
             _productApiController = productApiController;
             _mapper = mapper;
@@ -31,29 +28,17 @@ namespace Burak.Application.Inveon.Pages.Admin.Products
 
         public async Task OnGetAsync()
         {
-            ProductResponse = await _productApiController.GetProductBySku(Uid);
-
-            ProductRequest = _mapper.Map<UpdateProductRequest>(ProductResponse);
 
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
            
-            ProductResponse = await _productApiController.UpdateProduct(ProductRequest);
+            ProductResponse = await _productApiController.CreateProduct(ProductRequest);
 
             ProductRequest = _mapper.Map<UpdateProductRequest>(ProductResponse);
 
             return this.RedirectToPage("/Admin/Products/Index");
         }
-
-        public async Task<IActionResult> OnPostDeleteAsync()
-        {
-
-            await _productApiController.DeleteProduct(Uid);
-            return this.RedirectToPage("/Admin/Products/Index");
-        }
-
-
     }
 }

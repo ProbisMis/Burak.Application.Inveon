@@ -10,6 +10,7 @@ using Burak.Application.Inveon.Utilities.ValidationHelper.ValidationResolver;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,6 +65,31 @@ namespace Burak.Application.Inveon.Controllers
             return productResponse;
         }
 
+        [HttpPost("create")]
+        public async Task<UpdateProductResponse> CreateProduct([FromBody] UpdateProductRequest request)
+        {
+            /* VALIDATE */
+            var validator = _validatorResolver.Resolve<UpdateProductRequestValidator>();
+            ValidationResult validationResult = validator.Validate(request);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.ToString());
+            }
+
+            var product = _mapper.Map<Product>(request);
+            product.CreatedOnUtc = DateTime.UtcNow;
+            product.UpdatedOnUtc = DateTime.UtcNow;
+            product.SKU = generateSku();
+            product.IsActive = true;
+            product.IsDeleted = false;
+            
+            await _productService.CreateProduct(product);
+
+            var productResponse = _mapper.Map<UpdateProductResponse>(product);
+
+            return productResponse;
+        }
+
         [HttpGet("{sku}")]
         public async Task<UpdateProductResponse> GetProductBySku([FromRoute] string sku)
         {
@@ -88,20 +114,19 @@ namespace Burak.Application.Inveon.Controllers
             return productResponse;
         }
 
-        [HttpDelete("delete")]
-        public async Task DeleteItem([FromBody] UpdateProductRequest request)
+        [HttpDelete("delete/{sku}")]
+        public async Task DeleteProduct([FromRoute] string sku)
         {
-            /* VALIDATE */
-            var validator = _validatorResolver.Resolve<UpdateProductRequestValidator>();
-            ValidationResult validationResult = validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.ToString());
-            }
-            var product = await _productService.GetProductBySku(request.SKU);
-            if (ControlHelper.isEmpty(product)) throw new NotFoundException(nameof(Product));
+            await _productService.DeleteProduct(sku);
+        }
 
-            await _productService.DeleteProduct(product);
+        private string generateSku()
+        {
+            Guid g = Guid.NewGuid();
+            string GuidString = Convert.ToBase64String(g.ToByteArray());
+            GuidString = GuidString.Replace("=", "");
+            GuidString = GuidString.Replace("+", "");
+            return GuidString;
         }
     }
 }

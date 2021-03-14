@@ -12,7 +12,6 @@ namespace Burak.Application.Inveon.Business.Validator
 
         public UpdateProductRequestValidator()
         {
-            RuleFor(r => r.SKU).NotNull();
             RuleFor(r => r.Description).NotNull();
             RuleFor(r => r.ProductName).NotNull();
             RuleFor(r => r.Price).GreaterThanOrEqualTo(0).NotNull();

@@ -70,9 +70,10 @@ namespace Burak.Application.Inveon.Business.Services
            
         }
 
-        public async Task DeleteProduct(Product Product)
+        public async Task DeleteProduct(string sku)
         {
-            var updatedProduct = _dataContext.Products.Remove(Product);
+            var product = GetProductBySku(sku);
+           _dataContext.Products.Remove(product.Result);
             await _dataContext.SaveChangesAsync();
         }
     }

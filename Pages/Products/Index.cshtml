@@ -5,6 +5,11 @@
     ViewData["Title"] = "ADMIN PANEL";
 }
 
+
+<div>
+    <a asp-page="/Index"> Log Out</a>
+</div>
+
 <div class="row">
     @if (Model.Products.Any())
     {
@@ -52,7 +57,3 @@
     }
 </div>
 
-
-<div>
-    <a asp-page="/Index"> Log Out</a>
-</div>

@@ -12,6 +12,6 @@ namespace Burak.Application.Inveon.Business.Services
         Task<Product> GetProductBySku(string Sku);
         Task<Product> CreateProduct(Product Product);
         Task<Product> UpdateProduct(Product Product);
-        Task DeleteProduct(Product Product);
+        Task DeleteProduct(string Sku);
     }
 }

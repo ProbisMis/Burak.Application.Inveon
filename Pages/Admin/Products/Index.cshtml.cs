@@ -39,5 +39,10 @@ namespace Burak.Application.Inveon.Pages.Admin.Products
         {
             Products = await _productApiController.GetProducts();
         }
+
+        public async Task<IActionResult> OnCreate()
+        {
+            return this.RedirectToPage("/Admin/Products/Create");
+        }
     }
 }

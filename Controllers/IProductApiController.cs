@@ -10,11 +10,13 @@ namespace Burak.Application.Inveon
     {
         Task<UpdateProductResponse> UpdateProduct(UpdateProductRequest request);
 
+        Task<UpdateProductResponse> CreateProduct(UpdateProductRequest request);
+
         Task<UpdateProductResponse> GetProductBySku(string sku);
 
         Task<List<UpdateProductResponse>> GetProducts();
 
-        Task DeleteItem(UpdateProductRequest request);
+        Task DeleteProduct(string sku);
    
     }
 }
