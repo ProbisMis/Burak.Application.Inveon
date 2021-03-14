@@ -29,7 +29,6 @@ namespace Burak.Application.Inveon.Controllers
         private readonly IMapper _mapper;
 
         public UserApiController(ILogger<UserApiController> logger,
-
             IUserService userService,
             IValidatorResolver validatorResolver,
             IMapper mapper

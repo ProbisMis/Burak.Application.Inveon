@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Burak.Application.Inveon.Controllers
 {
     [Route("")]
-    public class HomeController : ControllerBase
+    public class HomeController : Controller
     {
         [HttpGet("health-check")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -17,10 +17,16 @@ namespace Burak.Application.Inveon.Controllers
             return StatusCode((int)HttpStatusCode.OK, Environment.MachineName);
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet("")]
         public RedirectResult Home()
         {
             return Redirect($"{Request.Scheme}://{Request.Host.ToUriComponent()}/swagger");
         }
+
     }
 }

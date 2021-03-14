@@ -2,10 +2,6 @@
 using Burak.Application.Inveon.Utilities.ValidationHelper;
 using FluentValidation;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Burak.Application.Inveon.Business.Validator
 {

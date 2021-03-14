@@ -7,7 +7,6 @@ namespace Burak.Application.Inveon.Data
     {
         public DataContext(DbContextOptions<DataContext> dbContextOptions) : base(dbContextOptions)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,7 +16,6 @@ namespace Burak.Application.Inveon.Data
         }
 
         public virtual DbSet<User> Users { get; set; }
-        //public virtual DbSet<Item> Items { get; set; }
-        //public virtual DbSet<UserItem> UserItems { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
     }
 }
